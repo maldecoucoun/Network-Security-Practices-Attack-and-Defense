@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 127.0.0.1:8081:80
+    environment:
+      # This will be the DB hostname
+      WORDPRESS_DB_HOST: db
+      # This will be the DB username
+      WORDPRESS_DB_USER: exampleuser
+      # This will be the DB password
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+    volumes:
+      - wordpress:/var/www/html
+    # TODO: attach the apparmor profile into this section
+    # security_opt:
+    #   - 
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
